@@ -1,0 +1,27 @@
+/home/andrea/esp1/lab1_3/main/main.c:4:10: fatal error: driver/gpio.h: No such file or directory
+    4 | #include "driver/gpio.h"
+      |          ^~~~~~~~~~~~~~~
+compilation terminated.
+[473/484] Building C object esp-idf/mbedtls/CMakeFiles/__idf_mbedtls.dir/esp_crt_bundle/esp_crt_bundle.c.obj
+ninja: build stopped: subcommand failed.
+Compilation failed because main.c (in "main" component) includes driver/gpio.h, provided by esp_driver_gpio component(s).
+However, esp_driver_gpio component(s) is not in the requirements list of "main".
+To fix this, add esp_driver_gpio to PRIV_REQUIRES list of idf_component_register call in /home/andrea/esp1/lab1_3/main/CMakeLists.txt.
+ninja failed with exit code 1, output of the command is in the /home/andrea/esp1/lab1_3/build/log/idf_py_stderr_output_16923 and /home/andrea/esp1/lab1_3/build/log/idf_py_stdout_output_16923
+andrea@andrea-desktop:~/esp1/lab1_3$ 
+
+
+top level: 
+# The following lines of boilerplate have to be in your project's
+# CMakeLists in this exact order for cmake to work correctly
+cmake_minimum_required(VERSION 3.16)
+
+include($ENV{IDF_PATH}/tools/cmake/project.cmake)
+# "Trim" the build. Include the minimal set of components, main, and anything it depends on.
+idf_build_set_property(MINIMAL_BUILD ON)
+project(lab1_3)
+
+main level:
+idf_component_register(SRCS "main.c"
+                       PRIV_REQUIRES spi_flash
+                       INCLUDE_DIRS "")
